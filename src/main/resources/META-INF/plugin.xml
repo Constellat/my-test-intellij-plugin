@@ -3,16 +3,16 @@
 
 <idea-plugin>
 
-  <!-- Unique id for this plugin. Must stay constant for the life of the plugin. -->
+  <!-- 该插件的唯一 ID。 在插件的生命周期内必须保持不变。 -->
   <id>org.intellij.sdk.action</id>
 
-  <!-- Text to display as name on Settings | Plugin page -->
+  <!-- 在“设置”|插件 上显示为名称 -->
   <name>SDK: Action Sample</name>
 
-  <!-- Indicate this plugin can be loaded in all IntelliJ Platform-based products. -->
+  <!-- 表示该插件可以加载到所有基于IntelliJ平台的产品中。 -->
   <depends>com.intellij.modules.platform</depends>
 
-  <!-- Text to display as description on Settings | Plugin page -->
+  <!-- 显示为 设置|插件 页面描述的文本 -->
   <description>
     <![CDATA[
       Demonstrates implementing Action and Action Group patterns.<br> Adds entries to the Tools menu.
@@ -28,10 +28,10 @@
     ]]>
   </change-notes>
 
-  <!-- Text to display as company information on Settings | Plugin page -->
+  <!-- 在“设置”|插件 页面上显示为公司信息的文本 -->
   <vendor url="https://plugins.jetbrains.com">IntelliJ Platform SDK</vendor>
 
-  <!-- Declare the default resource location for localizing menu strings -->
+  <!-- 声明本地化菜单字符串的默认资源位置 -->
   <resource-bundle>messages.BasicActionsBundle</resource-bundle>
 
   <actions>
@@ -47,6 +47,8 @@
       element and see how the menu text changes.) The alternate text and description attributes do not
       appear here because they are defined by action-id in the resource-bundle.
     -->
+    <!--  注册一个ActionListener 监听ctrl+alt+H的keymap 执行PopupDialogAction 继承自AnAction  -->
+    <!-- 同时在Tool菜单创建一个按钮 在第一个位置 名字叫“Pop Dialog Action123” -->
     <action id="org.intellij.sdk.action.PopupDialogAction" class="org.intellij.sdk.action.PopupDialogAction"
             text="Action Basics Plugin: Pop Dialog Action" description="SDK action example"
             icon="SdkIcons.Sdk_default_icon">
@@ -65,6 +67,9 @@
       enable/disable conditions. Instead it must rely on the conditions imposed by the parent menu where it is inserted.
       It declares one action in the group.
     -->
+    <!-- 在菜单的工具页中添加一个group group表示包含二级菜单 名字叫“Static Grouped Actions123” -->
+    <!-- 相对位置在 org.intellij.sdk.action.PopupDialogAction 的后面 -->
+    <!-- 包含一个Action 与上面的Action同类 但不是一个对象，id不同 也属于PopupDialogAction类 -->
     <group id="org.intellij.sdk.action.GroupedActions"
            text="Static Grouped Actions" description="SDK statically grouped action example"
            popup="true" icon="SdkIcons.Sdk_default_icon">
@@ -81,11 +86,13 @@
       The group and action implementations are internationalized, so their declarations do not use the text or
       description attributes. Instead, the information is defined in the BasicActionsBundle.
     -->
+    <!-- 在选中文本后的右击的编辑菜单页中添加一个group group表示包含二级菜单 名字叫“Custom Default Action Group123” -->
+    <!-- 上面的命名可能被覆盖 resources/messages/BasicActionsBundle.properties 中 group.org.intellij.sdk.action.CustomDefaultActionGroup.text=xxx -->
+    <!-- 包含一个Action 与上面的Action同类 但不是一个对象，id不同 也属于PopupDialogAction类 -->
     <group id="org.intellij.sdk.action.CustomDefaultActionGroup"
            class="org.intellij.sdk.action.CustomDefaultActionGroup"
            text="Custom Default Action Group" icon="SdkIcons.Sdk_default_icon"
            popup="true">
-<!--      选中代码块 右击菜单页-->
       <add-to-group group-id="EditorPopupMenu" anchor="first"/>
       <override-text place="MainMenu" text="Custom Default Action Group123"/>
       <action id="org.intellij.sdk.action.CustomGroupedAction" class="org.intellij.sdk.action.PopupDialogAction"
@@ -95,6 +102,9 @@
       DynamicActionGroup demonstrates declaring an action group without a static action declaration.
       An action is added to the group programmatically in the DynamicActionGroup implementation.
     -->
+    <!-- 在菜单的工具页中添加一个group group表示包含二级菜单 名字叫“Dynamically Grouped Actions123” -->
+    <!-- 相对位置在 org.intellij.sdk.action.GroupedActions 的后面 -->
+    <!-- 对应的一个Group类是DynamicActionGroup 继承自ActionGroup 内部实现一个二级菜单 包含一个PopupDialogAction对象 -->
     <group id="org.intellij.sdk.action.DynamicActionGroup" class="org.intellij.sdk.action.DynamicActionGroup"
            popup="true" text="Dynamically Grouped Actions123" description="SDK dynamically grouped action example"
            icon="SdkIcons.Sdk_default_icon">
