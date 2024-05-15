@@ -1,44 +1,40 @@
-# my-test-intellij-plugin
+# Editor Sample Project [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg)][docs]
+*Reference: [Basics of Working with the Editor in IntelliJ SDK Docs][docs:editor_basics]*
 
-![Build](https://github.com/Constellat/my-test-intellij-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+## Quickstart
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties), [plugin ID](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `PLUGIN_ID` in the above README badges.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+Editor Sample Project provides a [TypedHandlerDelegate][sdk:TypedHandlerDelegate] implementation, which inserts `editor_basics` on the top of the edited document any time user types a character.
+In addition, three actions are available in the Editor context menu:
 
-<!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+- Editor Replace Text - replaces the selected text with `editor_basics`,
+- Editor Add Caret - adds extra caret below the current one,
+- Caret Position - shows message dialog with information about the caret position.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+### Extension Points
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
-<!-- Plugin description end -->
+| Name                        | Implementation                        | Extension Point Class  |
+|-----------------------------|---------------------------------------|------------------------|
+| `com.intellij.typedHandler` | [MyTypedHandler][file:MyTypedHandler] | `TypedHandlerDelegate` |
 
-## Installation
+*Reference: [Plugin Extension Points in IntelliJ SDK Docs][docs:ep]*
 
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "my-test-intellij-plugin"</kbd> >
-  <kbd>Install</kbd>
-  
-- Manually:
+### Actions
 
-  Download the [latest release](https://github.com/Constellat/my-test-intellij-plugin/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+| ID                                         | Implementation                                              | Base Action Class |
+|--------------------------------------------|-------------------------------------------------------------|-------------------|
+| `EditorBasics.EditorIllustrationAction`    | [EditorIllustrationAction][file:EditorIllustrationAction]   | `AnAction`        |
+| `EditorBasics.EditorHandlerIllustration`   | [EditorHandlerIllustration][file:EditorHandlerIllustration] | `AnAction`        |
+| `EditorBasics.LogicalPositionIllustration` | [EditorAreaIllustration][file:EditorAreaIllustration]       | `AnAction`        |
+
+*Reference: [Action System in IntelliJ SDK Docs][docs:actions]*
 
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+[docs]: https://plugins.jetbrains.com/docs/intellij/
+[docs:actions]: https://plugins.jetbrains.com/docs/intellij/basic-action-system.html
+[docs:editor_basics]: https://plugins.jetbrains.com/docs/intellij/editor-basics.html
+[docs:ep]: https://plugins.jetbrains.com/docs/intellij/plugin-extensions.html
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+[file:MyTypedHandler]: ./src/main/java/org/intellij/sdk/editor/MyTypedHandler.java
+[file:EditorIllustrationAction]: ./src/main/java/org/intellij/sdk/editor/EditorIllustrationAction.java
+[file:EditorHandlerIllustration]: ./src/main/java/org/intellij/sdk/editor/EditorHandlerIllustration.java
+[file:EditorAreaIllustration]: ./src/main/java/org/intellij/sdk/editor/EditorAreaIllustration.java
