@@ -1,40 +1,40 @@
-# Action Basics Sample Project [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg)][docs]
-*Reference: [Action System in IntelliJ SDK Docs][docs:actions]*
+# Editor Sample Project [![JetBrains IntelliJ Platform SDK Docs](https://jb.gg/badges/docs.svg)][docs]
+*Reference: [Basics of Working with the Editor in IntelliJ SDK Docs][docs:editor_basics]*
 
 ## Quickstart
 
-The Action Basics Sample Project demonstrates the process of registering actions in various configurations.
-Each action is an extension of the [`AnAction`][sdk:AnAction] abstract class and brings the possibility of extending the IDE with an event performed with the user interaction - i.e., clicking the button, using the keyboard or mouse shortcuts.
+Editor Sample Project provides a [TypedHandlerDelegate][sdk:TypedHandlerDelegate] implementation, which inserts `editor_basics` on the top of the edited document any time user types a character.
+In addition, three actions are available in the Editor context menu:
 
-This Plugin registers the [`PopupDialogAction`][file:PopupDialogAction] action, which provides a popup dialog as a feedback, in three different ways:
-- by assigning the keyboard (<kbd>Ctrl/Cmd</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd>, <kbd>C</kbd>) and mouse shortcuts (<kbd>Ctrl/Cmd</kbd> + <kbd>Mouse Button 3</kbd> + <kbd>Double Click</kbd>),
-- by adding an action to the `ToolsMenu` directly, and as part of new groups added to the Tools menu,
-- by adding an action to a new group in the `EditorPopupMenu`, which is the Editor's context menu.
+- Editor Replace Text - replaces the selected text with `editor_basics`,
+- Editor Add Caret - adds extra caret below the current one,
+- Caret Position - shows message dialog with information about the caret position.
 
-Additional features of the plugin:
-- [Using the `<override-text>`][docs:action-override] element in an [`<action>`][docs:plugin-configuration-file:actions:action] element is demonstrated in the `plugin.xml` declaration to add the `PopupDialogAction` action directly to the `ToolsMenu`.
-- [Localization of action and group][docs:action-locale] `text` and `description` attributes using a [`<resource-bundle>`][docs:plugin-configuration-file:resource-bundle] is demonstrated in the declaration to add a new group to the `EditorPopupMenu`.
+### Extension Points
+
+| Name                        | Implementation                        | Extension Point Class  |
+|-----------------------------|---------------------------------------|------------------------|
+| `com.intellij.typedHandler` | [MyTypedHandler][file:MyTypedHandler] | `TypedHandlerDelegate` |
+
+*Reference: [Plugin Extension Points in IntelliJ SDK Docs][docs:ep]*
 
 ### Actions
 
-| ID                                                 | Implementation                                            | Base Action Class |
-|----------------------------------------------------|-----------------------------------------------------------|-------------------|
-| `org.intellij.sdk.action.GroupPopDialogAction`     | [PopupDialogAction][file:PopupDialogAction]               | `AnAction`        |
-| `org.intellij.sdk.action.PopupDialogAction`        | [PopupDialogAction][file:PopupDialogAction]               | `AnAction`        |
-| `org.intellij.sdk.action.CustomGroupedAction`      | [PopupDialogAction][file:PopupDialogAction]               | `AnAction`        |
-| `org.intellij.sdk.action.CustomDefaultActionGroup` | [CustomDefaultActionGroup][file:CustomDefaultActionGroup] | `ActionGroup`     |
-| `org.intellij.sdk.action.DynamicActionGroup`       | [DynamicActionGroup][file:DynamicActionGroup]             | `ActionGroup`     |
+| ID                                         | Implementation                                              | Base Action Class |
+|--------------------------------------------|-------------------------------------------------------------|-------------------|
+| `EditorBasics.EditorIllustrationAction`    | [EditorIllustrationAction][file:EditorIllustrationAction]   | `AnAction`        |
+| `EditorBasics.EditorHandlerIllustration`   | [EditorHandlerIllustration][file:EditorHandlerIllustration] | `AnAction`        |
+| `EditorBasics.LogicalPositionIllustration` | [EditorAreaIllustration][file:EditorAreaIllustration]       | `AnAction`        |
 
 *Reference: [Action System in IntelliJ SDK Docs][docs:actions]*
 
 
 [docs]: https://plugins.jetbrains.com/docs/intellij/
 [docs:actions]: https://plugins.jetbrains.com/docs/intellij/basic-action-system.html
-[docs:action-override]: https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#setting-the-override-text-element
-[docs:action-locale]: https://plugins.jetbrains.com/docs/intellij/basic-action-system.html#localizing-actions-and-groups
-[docs:plugin-configuration-file:actions:action]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__actions__action
-[docs:plugin-configuration-file:resource-bundle]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html#idea-plugin__resource-bundle
+[docs:editor_basics]: https://plugins.jetbrains.com/docs/intellij/editor-basics.html
+[docs:ep]: https://plugins.jetbrains.com/docs/intellij/plugin-extensions.html
 
-[file:PopupDialogAction]: ./src/main/java/org/intellij/sdk/action/PopupDialogAction.java
-[file:CustomDefaultActionGroup]: ./src/main/java/org/intellij/sdk/action/CustomDefaultActionGroup.java
-[file:DynamicActionGroup]: ./src/main/java/org/intellij/sdk/action/DynamicActionGroup.java
+[file:MyTypedHandler]: src/main/java/org/intellij/sdk/editor/MyTypedHandler.java
+[file:EditorIllustrationAction]: src/main/java/org/intellij/sdk/editor/EditorIllustrationAction.java
+[file:EditorHandlerIllustration]: src/main/java/org/intellij/sdk/editor/EditorHandlerIllustration.java
+[file:EditorAreaIllustration]: src/main/java/org/intellij/sdk/editor/EditorAreaIllustration.java
